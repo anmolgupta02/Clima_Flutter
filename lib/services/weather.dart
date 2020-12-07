@@ -25,7 +25,7 @@ class WeatherModel {
     } else if (temp > 20) {
       return 'Time for shorts and 👕';
     } else if (temp < 10) {
-      return 'You\'ll need 🧣 and 🧤';
+      return 'You\'ll need  🧣 and 🧤';
     } else {
       return 'Bring a 🧥 just in case';
     }

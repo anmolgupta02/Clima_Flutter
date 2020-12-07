@@ -1,1 +1,22 @@
-//http://api.openweathermap.org/data/2.5/weather?lat=28.63&lon=77.21&appid=c7093186b7513eb7f072fb2d5e15d931
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+
+class NetworkHelper {
+  NetworkHelper(this.baseURL);
+
+  final String baseURL;
+
+  Future getData() async {
+    http.Response apiResponse = await http.get(baseURL);
+
+    if (apiResponse.statusCode == 200) {
+      String dataFromApiResponse = apiResponse.body;
+      print(dataFromApiResponse);
+      return jsonDecode(dataFromApiResponse);
+    } else {
+      print("Here is what went wrong " + apiResponse.statusCode.toString());
+      print(baseURL);
+    }
+  }
+}
