@@ -22,15 +22,16 @@ class _LocationScreenState extends State<LocationScreen> {
     super.initState();
     //String weatherDataFromObj = widget.weatherDataObj.toString();
     //print("The Data from OBJ is " + weatherDataFromObj);
-    UpdateUI(widget.weatherDataObj);
+    updateUI(widget.weatherDataObj);
   }
 
   String weatherEmoji;
   String weatherMsg;
 
-  void UpdateUI(dynamic weatherData) {
+  void updateUI(dynamic weatherData) {
     setState(() {
       WeatherModel weatherModelObj = WeatherModel();
+
       var condition = weatherData['weather'][0]['id'];
       var temp = weatherData['main']['temp'];
       temperature = temp.toInt();
@@ -65,7 +66,11 @@ class _LocationScreenState extends State<LocationScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     FlatButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        var weatherData =
+                            await WeatherModel().getLocationWeather();
+                        updateUI(weatherData);
+                      },
                       child: Icon(
                         Icons.near_me,
                         size: 50.0,

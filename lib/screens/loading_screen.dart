@@ -1,5 +1,4 @@
-import 'package:clima/services/location.dart';
-import 'package:clima/services/networking.dart';
+import 'package:clima/services/weather.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -24,16 +23,23 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   void getLocationData() async {
-    Location loc = Location();
-    await loc.getCurrentLocation();
+//    Location loc = Location();
+//    await loc.getCurrentLocation();
+//
+//    currentLat = loc.latitude;
+//    currentLong = loc.longitude;
+//
+//    NetworkHelper networkHelper = NetworkHelper(
+//        'http://api.openweathermap.org/data/2.5/weather?lat=$currentLat&lon=$currentLong&appid=$key&units=metric');
+//
+//    var weatherData = await networkHelper.getData();
+// code has been rebased to weather class to use current location function.
 
-    currentLat = loc.latitude;
-    currentLong = loc.longitude;
+    WeatherModel weatherModel = WeatherModel();
+    var weatherData = await weatherModel.getLocationWeather();
 
-    NetworkHelper networkHelper = NetworkHelper(
-        'http://api.openweathermap.org/data/2.5/weather?lat=$currentLat&lon=$currentLong&appid=$key&units=metric');
-
-    var weatherData = await networkHelper.getData();
+    //var weatherDataNew = WeatherModel().getLocationWeather() -> Converts the
+    // above two lines to 1 short hand notation.
 
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return LocationScreen(
