@@ -1,3 +1,4 @@
+import 'package:clima/screens/city_screen.dart';
 import 'package:clima/services/weather.dart';
 import 'package:clima/utilities/constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,6 +31,14 @@ class _LocationScreenState extends State<LocationScreen> {
 
   void updateUI(dynamic weatherData) {
     setState(() {
+      if (weatherData == null) {
+        temperature = 0;
+        weatherEmoji = 'Error';
+        weatherMsg = 'Unable to get weather data';
+        cityName = '';
+        return;
+      }
+
       WeatherModel weatherModelObj = WeatherModel();
 
       var condition = weatherData['weather'][0]['id'];
@@ -68,7 +77,7 @@ class _LocationScreenState extends State<LocationScreen> {
                     FlatButton(
                       onPressed: () async {
                         var weatherData =
-                            await WeatherModel().getLocationWeather();
+                        await WeatherModel().getLocationWeather();
                         updateUI(weatherData);
                       },
                       child: Icon(
@@ -77,7 +86,20 @@ class _LocationScreenState extends State<LocationScreen> {
                       ),
                     ),
                     FlatButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        var typedName = await Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return CityScreen();
+                        }));
+                        print(typedName);
+                        if (typedName != null) {
+                          //WeatherModel weatherModel = WeatherModel(); // Can be accessed either ways!
+                          var weatherData =
+                              await WeatherModel().getCityWeather(typedName);
+                          updateUI(weatherData);
+                        }
+                      },
+                      //Added async await because the pop of the city_screen will return us a Future<dynamic>.
                       child: Icon(
                         Icons.location_city,
                         size: 50.0,
